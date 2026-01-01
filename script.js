@@ -15,6 +15,7 @@ const btnToYaml = document.getElementById('btn-to-yaml');
 const btnClear = document.getElementById('btn-clear');
 const btnCopy = document.getElementById('btn-copy');
 const btnDownload = document.getElementById('btn-download');
+const btnFix = document.getElementById('btn-fix');
 const btnViewCode = document.getElementById('btn-view-code');
 const btnViewTree = document.getElementById('btn-view-tree');
 const fileUpload = document.getElementById('file-upload');
@@ -280,7 +281,63 @@ const handleError = (error) => {
         return;
     }
 
-    showError(`JSON Error: ${errorString}`);
+    // Improve Error Messages
+    let friendlyMsg = errorString.replace(/at position \d+/i, '').trim();
+
+    if (friendlyMsg.includes("Unexpected token }")) {
+        friendlyMsg = "It looks like you have an extra closing brace '}' or a trailing comma before it.";
+    } else if (friendlyMsg.includes("Unexpected token ]")) {
+        friendlyMsg = "It looks like you have an extra closing bracket ']' or a trailing comma before it.";
+    } else if (friendlyMsg.includes("Unexpected token ,")) {
+        friendlyMsg = "You might have a misplaced comma ',' or a missing value.";
+    } else if (friendlyMsg.includes("Unexpected end of JSON input")) {
+        friendlyMsg = "The JSON string ends prematurely. Check for missing closing braces '}' or brackets ']'.";
+    }
+
+    showError(`Error: ${friendlyMsg}`);
+};
+
+// Fix JSON Logic
+const fixJSON = () => {
+    if (!inputEditor) return;
+    let text = inputEditor.getValue();
+    if (!text.trim()) return;
+
+    try {
+        // Strategy 1: Smart Regex Heuristics (Common Mistakes)
+        // Remove trailing commas in objects
+        text = text.replace(/,(\s*[}\]])/g, '$1');
+        // Replace single quotes with double quotes (simple cases)
+        text = text.replace(/'([^']*)':/g, '"$1":');
+        text = text.replace(/: '([^']*)'/g, ': "$1"');
+
+        // Strategy 2: Use Tolerant Parser (JSON5) if available
+        let parsed;
+        if (typeof JSON5 !== 'undefined') {
+            try {
+                parsed = JSON5.parse(text);
+            } catch (e5) {
+                // If JSON5 also fails, we rely on the regex changes
+                // or try to standard parse the regex-modified text
+            }
+        }
+
+        // If JSON5 regex/didn't run, try standard parse
+        if (!parsed) {
+            parsed = JSON.parse(text);
+        }
+
+        // If we reached here, we successfully parsed it either via JSON5 or Regex helps
+        const formatted = JSON.stringify(parsed, null, INDENT_SPACE);
+        inputEditor.setValue(formatted); // Update input with fixed version
+        outputEditor.setValue(formatted);
+        clearError();
+        showError('✓ Magic Fix Applied!');
+        setTimeout(clearError, 2000);
+
+    } catch (e) {
+        showError(`Could not auto-fix: ${e.message}`);
+    }
 };
 
 // Tree View Logic
@@ -582,6 +639,7 @@ if (btnMinify) btnMinify.addEventListener('click', minifyJSON);
 if (btnToCsv) btnToCsv.addEventListener('click', () => convertData('csv'));
 if (btnToXml) btnToXml.addEventListener('click', () => convertData('xml'));
 if (btnToYaml) btnToYaml.addEventListener('click', () => convertData('yaml'));
+if (btnFix) btnFix.addEventListener('click', fixJSON);
 
 if (btnClear) btnClear.addEventListener('click', () => {
     if (inputEditor) inputEditor.setValue('');
