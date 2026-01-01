@@ -304,32 +304,34 @@ const fixJSON = () => {
     if (!text.trim()) return;
 
     try {
-        // Strategy 1: Smart Regex Heuristics (Common Mistakes)
-        // Remove trailing commas in objects
-        text = text.replace(/,(\s*[}\]])/g, '$1');
-        // Replace single quotes with double quotes (simple cases)
-        text = text.replace(/'([^']*)':/g, '"$1":');
-        text = text.replace(/: '([^']*)'/g, ': "$1"');
-
-        // Strategy 2: Use Tolerant Parser (JSON5) if available
         let parsed;
+
+        // Strategy 1: Use Tolerant Parser (JSON5) FIRST
+        // JSON5 natively handles single quotes, trailing commas, etc. extremely fast.
         if (typeof JSON5 !== 'undefined') {
             try {
                 parsed = JSON5.parse(text);
             } catch (e5) {
-                // If JSON5 also fails, we rely on the regex changes
-                // or try to standard parse the regex-modified text
+                // JSON5 failed, proceed to other strategies
             }
         }
 
-        // If JSON5 regex/didn't run, try standard parse
+        // Strategy 2: Regex Heuristics (fallback for things JSON5 might miss or if JSON5 not loaded)
+        // Only run this if we don't have a parsed object yet.
         if (!parsed) {
-            parsed = JSON.parse(text);
+            // Remove trailing commas in objects
+            let fixedText = text.replace(/,(\s*[}\]])/g, '$1');
+            // Replace single quotes with double quotes (simple cases)
+            fixedText = fixedText.replace(/'([^']*)':/g, '"$1":');
+            fixedText = fixedText.replace(/: '([^']*)'/g, ': "$1"');
+
+            // Try standard parse with regex-fixed text
+            parsed = JSON.parse(fixedText);
         }
 
-        // If we reached here, we successfully parsed it either via JSON5 or Regex helps
+        // Output Result
         const formatted = JSON.stringify(parsed, null, INDENT_SPACE);
-        inputEditor.setValue(formatted); // Update input with fixed version
+        inputEditor.setValue(formatted);
         outputEditor.setValue(formatted);
         clearError();
         showError('✓ Magic Fix Applied!');
