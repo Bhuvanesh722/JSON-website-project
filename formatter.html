@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSONEase – Free Online JSON Formatter & Validator</title>
+    <meta name="description"
+        content="Free online JSON formatter, validator, and beautifier. Minify, debug, and fix JSON errors instantly. No login required, 100% client-side privacy.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/dracula.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/fold/foldgutter.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <a href="index.html"
+                    style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 8px;">
+                    <span class="logo-icon">{ }</span>
+                    <h1>JSONEase</h1>
+                </a>
+            </div>
+            <nav class="nav-links">
+                <a href="formatter.html" class="btn btn-text active-link">Formatter</a>
+                <a href="generator.html" class="btn btn-text">Generator</a>
+                <a href="what-is-json.html" class="btn btn-text">What is JSON?</a>
+                <a href="json-vs-xml.html" class="btn btn-text">JSON vs XML</a>
+                <a href="how-to-fix-json-errors.html" class="btn btn-text">Fix Errors</a>
+                <button id="theme-toggle" class="btn btn-text" aria-label="Toggle Theme">
+                    <span class="theme-icon-sun">☀️</span>
+                    <span class="theme-icon-moon hidden">🌙</span>
+                </button>
+            </nav>
+        </header>
+
+        <!-- Top Ad Banner Placeholder -->
+        <div class="ad-banner" aria-label="Advertisement">
+            <span class="ad-placeholder-text">Ad Space</span>
+        </div>
+
+        <!-- Main Tool Area -->
+        <main class="tool-area">
+            <div class="toolbar">
+                <div class="toolbar-group">
+                    <button id="btn-format" class="btn btn-primary">Format</button>
+                    <button id="btn-validate" class="btn btn-secondary">Validate</button>
+                    <button id="btn-minify" class="btn btn-secondary">Minify</button>
+                </div>
+                <div class="toolbar-group">
+                    <div class="view-toggle">
+                        <button id="btn-view-code" class="btn btn-sm btn-primary active">Code</button>
+                        <button id="btn-view-tree" class="btn btn-sm btn-secondary">Tree</button>
+                    </div>
+                </div>
+                <div class="toolbar-group">
+                    <button id="btn-to-csv" class="btn btn-text" title="Convert to CSV">To CSV</button>
+                    <button id="btn-to-xml" class="btn btn-text" title="Convert to XML">To XML</button>
+                    <button id="btn-to-yaml" class="btn btn-text" title="Convert to YAML">To YAML</button>
+                </div>
+                <div class="toolbar-group">
+                    <button id="btn-settings" class="btn btn-text" title="Settings">⚙️ Settings</button>
+                    <button id="btn-load-url" class="btn btn-text" title="Load from URL">🌐 Load URL</button>
+                    <label class="btn btn-text upload-btn">
+                        <input type="file" id="file-upload" accept=".json,.txt" hidden>
+                        📁 Upload
+                    </label>
+                    <button id="btn-clear" class="btn btn-text" title="Clear All">Clear</button>
+                    <button id="btn-copy" class="btn btn-text" title="Copy Output">Copy</button>
+                    <button id="btn-download" class="btn btn-text" title="Download JSON">Download</button>
+                </div>
+            </div>
+
+            <div class="editor-container">
+                <div class="editor-pane input-pane">
+                    <div class="pane-header">
+                        <span class="pane-label">Input JSON</span>
+                        <div class="pane-meta" id="input-meta">0 KB</div>
+                    </div>
+                    <div id="input-editor" class="cm-editor-container"></div>
+                </div>
+
+                <div class="editor-pane output-pane">
+                    <div class="pane-header">
+                        <span class="pane-label">Output</span>
+                        <div class="pane-meta" id="output-meta"></div>
+                    </div>
+                    <div id="output-editor" class="cm-editor-container"></div>
+                    <div id="tree-view-container" class="tree-view-container hidden"></div>
+                    <div id="error-message" class="error-toast hidden"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Content Area (SEO) -->
+        <section class="content-section">
+            <div class="content-wrapper">
+                <h2>Why use JSONEase?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3>⚡ Instant Formatting</h3>
+                        <p>Format and beautify your JSON data in milliseconds, entirely in your browser.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🔒 100% Private</h3>
+                        <p>We work client-side. Your data never leaves your browser and is never sent to any server.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>✅ Error Validation</h3>
+                        <p>Quickly identify syntax errors with helpful error messages and line numbers.</p>
+                    </div>
+                </div>
+
+                <div class="seo-content">
+                    <article>
+                        <h3>What is JSON?</h3>
+                        <p>JSON (JavaScript Object Notation) is a lightweight data-interchange format. It is easy for
+                            humans to read and write and easy for machines to parse and generate. JSON is a text format
+                            that is completely language independent.</p>
+                    </article>
+
+                    <article>
+                        <h3>Common JSON Errors</h3>
+                        <ul>
+                            <li>Missing quotes around keys (e.g., <code>{key: "value"}</code> is invalid).</li>
+                            <li>Trailing commas (e.g., <code>{"a": 1,}</code> is invalid).</li>
+                            <li>Using single quotes instead of double quotes.</li>
+                        </ul>
+                    </article>
+
+                    <div class="faq-section">
+                        <h3>Frequently Asked Questions</h3>
+                        <details>
+                            <summary>Is my data safe?</summary>
+                            <p>Yes. JSONEase parses and formats your data efficiently within your browser using
+                                JavaScript. No data is ever transmitted to a server.</p>
+                        </details>
+                        <details>
+                            <summary>Can I format large JSON files?</summary>
+                            <p>Yes, we support files up to specific browser memory limits, typically handling 2MB+ files
+                                with ease.</p>
+                        </details>
+                        <details>
+                            <summary>does it work offline?</summary>
+                            <p>Once loaded, JSONEase works completely offline.</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <p>&copy; 2026 JSONEase. Free Online JSON Tools.</p>
+                <div class="footer-links">
+                    <a href="formatter.html">Formatter</a>
+                    <a href="generator.html">Generator</a>
+                    <a href="what-is-json.html">What is JSON?</a>
+                    <a href="json-vs-xml.html">JSON vs XML</a>
+                    <a href="how-to-fix-json-errors.html">Fix JSON Errors</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Settings</h3>
+                <button id="close-settings" class="btn-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-item">
+                    <label for="indent-size">Indentation Size:</label>
+                    <select id="indent-size" class="form-select">
+                        <option value="2">2 Spaces</option>
+                        <option value="3">3 Spaces</option>
+                        <option value="4">4 Spaces</option>
+                        <option value="tab">Tab</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="auto-format-check">
+                        Auto-format on paste
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="save-settings" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/fold/foldcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/fold/foldgutter.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/fold/brace-fold.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

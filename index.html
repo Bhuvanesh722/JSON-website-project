@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSONEase – Free Online JSON Tools | Formatter, Validator, Generator</title>
+    <meta name="description"
+        content="Your go-to developer toolkit for JSON. Format, validate, minify, and generate JSON data instantly. 100% free, client-side, and private.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Landing Page Specific Styles */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --font-ui: 'Inter', system-ui, sans-serif;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+        }
+
+        body {
+            font-family: var(--font-ui);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(-45deg, #0d1117, #161b22, #1f6feb, #238636);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Header */
+        .header {
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo-icon {
+            color: #58a6ff;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero h1 span {
+            background: linear-gradient(90deg, #58a6ff, #2ea043);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        /* CTA Buttons */
+        .cta-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .cta-btn {
+            padding: 18px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-primary {
+            background: linear-gradient(135deg, #238636, #2ea043);
+            color: white;
+        }
+
+        .cta-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Features */
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 60px 20px;
+            flex-wrap: wrap;
+        }
+
+        .feature-item {
+            text-align: center;
+            max-width: 200px;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .feature-item h3 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .feature-item p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer a {
+            color: #58a6ff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        /* Advanced Features Grid */
+        .advanced-section {
+            padding: 40px 20px;
+            background: rgba(22, 27, 34, 0.5);
+            border-top: 1px solid rgba(48, 54, 61, 0.5);
+            border-bottom: 1px solid rgba(48, 54, 61, 0.5);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            font-weight: 700;
+        }
+
+        .advanced-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .advanced-card {
+            background: rgba(13, 17, 23, 0.8);
+            border: 1px solid var(--text-secondary);
+            /* utilizing existing var */
+            border-color: rgba(48, 54, 61, 0.8);
+            padding: 24px;
+            border-radius: 12px;
+            transition: transform 0.2s;
+        }
+
+        .advanced-card:hover {
+            transform: translateY(-5px);
+            border-color: #58a6ff;
+        }
+
+        .advanced-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #58a6ff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .advanced-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo">
+            <span class="logo-icon">{ }</span>
+            <span>JSONEase</span>
+        </div>
+        <nav class="nav-links">
+            <a href="formatter.html">Formatter</a>
+            <a href="generator.html">Generator</a>
+            <a href="what-is-json.html">Learn</a>
+        </nav>
+    </header>
+
+    <main class="hero">
+        <h1>Your <span>Developer Toolkit</span> for JSON</h1>
+        <p>Format, validate, minify, and generate JSON data instantly. 100% free, runs in your browser, and respects
+            your privacy.</p>
+        <div class="cta-group">
+            <a href="formatter.html" class="cta-btn cta-primary">
+                <span>✨</span> JSON Formatter
+            </a>
+            <a href="generator.html" class="cta-btn cta-secondary">
+                <span>⚙️</span> JSON Generator
+            </a>
+        </div>
+    </main>
+
+    <section class="advanced-section">
+        <h2 class="section-title">Advanced Toolkit</h2>
+        <div class="advanced-grid">
+            <div class="advanced-card">
+                <h3><span>🌳</span> Tree View</h3>
+                <p> visualize complex, deeply nested JSON data with an interactive collapsible tree explorer.</p>
+            </div>
+            <div class="advanced-card">
+                <h3><span>🔄</span> Converters</h3>
+                <p>Instantly convert your JSON data to XML, CSV, or YAML formats for compatibility with any system.</p>
+            </div>
+            <div class="advanced-card">
+                <h3><span>⚙️</span> Developer Settings</h3>
+                <p>Customize your experience with adjustable indentation (2/3/4 spaces), auto-formatting, and themes.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="feature-item">
+            <div class="feature-icon">⚡</div>
+            <h3>Instant</h3>
+            <p>No waiting; results in milliseconds.</p>
+        </div>
+        <div class="feature-item">
+            <div class="feature-icon">🔒</div>
+            <h3>Private</h3>
+            <p>Your data never leaves your browser.</p>
+        </div>
+        <div class="feature-item">
+            <div class="feature-icon">📱</div>
+            <h3>Responsive</h3>
+            <p>Works on any device, any screen.</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2026 JSONEase. Free Online JSON Tools.</p>
+        <a href="what-is-json.html">What is JSON?</a>
+        <a href="json-vs-xml.html">JSON vs XML</a>
+        <a href="how-to-fix-json-errors.html">Fix Errors</a>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Generator – Create Random JSON Data – JSONEase</title>
+    <meta name="description"
+        content="Generate random JSON data based on your schema. Define fields, types, and count. Free, fast, and private.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <a href="index.html"
+                    style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 8px;">
+                    <span class="logo-icon">{ }</span>
+                    <h1>JSONEase</h1>
+                </a>
+            </div>
+            <nav class="nav-links">
+                <a href="formatter.html" class="btn btn-text">Formatter</a>
+                <a href="generator.html" class="btn btn-text active-link">Generator</a>
+                <a href="what-is-json.html" class="btn btn-text">Learn</a>
+                <button id="theme-toggle" class="btn btn-text" aria-label="Toggle Theme">
+                    <span class="theme-icon-sun">☀️</span>
+                    <span class="theme-icon-moon hidden">🌙</span>
+                </button>
+            </nav>
+        </header>
+
+        <!-- Main Tool Area -->
+        <main class="tool-area">
+            <div class="toolbar">
+                <div class="toolbar-group">
+                    <button id="btn-generate" class="btn btn-primary">Generate JSON</button>
+                    <button id="btn-add-field" class="btn btn-secondary">+ Add Field</button>
+                </div>
+                <div class="toolbar-group">
+                    <label for="count-input" style="color: var(--text-secondary); margin-right: 5px;">Count:</label>
+                    <input type="number" id="count-input" value="5" min="1" max="100"
+                        style="width: 60px; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-input); color: var(--text-primary);">
+                    <button id="btn-copy" class="btn btn-text" title="Copy Output">Copy</button>
+                    <button id="btn-download" class="btn btn-text" title="Download JSON">Download</button>
+                </div>
+            </div>
+
+            <div class="editor-container">
+                <!-- Schema Panel -->
+                <div class="editor-pane input-pane">
+                    <div class="pane-header">
+                        <span class="pane-label">Schema Definition</span>
+                    </div>
+                    <div id="schema-fields" style="padding: var(--spacing-md); overflow-y: auto; flex: 1;">
+                        <!-- Fields will be added here dynamically -->
+                        <div class="schema-field" data-id="1">
+                            <input type="text" class="field-name" placeholder="Field name" value="id">
+                            <select class="field-type">
+                                <option value="number" selected>Number</option>
+                                <option value="string">String</option>
+                                <option value="boolean">Boolean</option>
+                                <option value="uuid">UUID</option>
+                                <option value="name">Name</option>
+                                <option value="email">Email</option>
+                            </select>
+                            <button class="btn-remove-field" title="Remove">&times;</button>
+                        </div>
+                        <div class="schema-field" data-id="2">
+                            <input type="text" class="field-name" placeholder="Field name" value="name">
+                            <select class="field-type">
+                                <option value="number">Number</option>
+                                <option value="string">String</option>
+                                <option value="boolean">Boolean</option>
+                                <option value="uuid">UUID</option>
+                                <option value="name" selected>Name</option>
+                                <option value="email">Email</option>
+                            </select>
+                            <button class="btn-remove-field" title="Remove">&times;</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Output Panel -->
+                <div class="editor-pane output-pane">
+                    <div class="pane-header">
+                        <span class="pane-label">Generated JSON</span>
+                    </div>
+                    <div class="editor-wrapper">
+                        <div class="line-numbers" id="output-lines">1</div>
+                        <textarea id="json-output" readonly placeholder="Click 'Generate JSON' to create data..."
+                            spellcheck="false"></textarea>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <p>&copy; 2026 JSONEase. Free Online JSON Tools.</p>
+                <div class="footer-links">
+                    <a href="formatter.html">Formatter</a>
+                    <a href="generator.html">Generator</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="generator.js"></script>
+</body>
+
+</html>

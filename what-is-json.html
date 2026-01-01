@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What is JSON? Definition, Syntax & Examples – JSONEase</title>
+    <meta name="description"
+        content="Learn what JSON (JavaScript Object Notation) is, how to use it, and why it's the standard for data interchange. Simple guide for developers.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <a href="index.html"
+                    style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 8px;">
+                    <span class="logo-icon">{ }</span>
+                    <h1>JSONEase</h1>
+                </a>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html" class="btn btn-text">Formatter</a>
+                <a href="what-is-json.html" class="btn btn-text active-link">What is JSON?</a>
+                <a href="json-vs-xml.html" class="btn btn-text">JSON vs XML</a>
+                <a href="how-to-fix-json-errors.html" class="btn btn-text">Fix Errors</a>
+                <button id="theme-toggle" class="btn btn-text" aria-label="Toggle Theme">
+                    <span class="theme-icon-sun">☀️</span>
+                    <span class="theme-icon-moon hidden">🌙</span>
+                </button>
+            </nav>
+        </header>
+
+        <!-- Content Area -->
+        <main class="content-section" style="padding-top: 40px; border: none;">
+            <div class="content-wrapper seo-content">
+                <h1>What is JSON?</h1>
+                <p><strong>JSON</strong> (JavaScript Object Notation) is a lightweight format for storing and
+                    transporting data. Ideally, it's easy for humans to read and write, and easy for machines to parse
+                    and generate.</p>
+
+                <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 30px 0;">
+
+                <h2>Key Features</h2>
+                <ul>
+                    <li><strong>Lightweight:</strong> Less verbose than XML, making it faster to transfer.</li>
+                    <li><strong>Language Independent:</strong> While derived from JavaScript, JSON is supported by
+                        almost every modern programming language (Python, Java, C#, etc.).</li>
+                    <li><strong>Self-describing:</strong> It's easy to understand what the data represents just by
+                        looking at it.</li>
+                </ul>
+
+                <h2>JSON Syntax Rules</h2>
+                <p>JSON syntax is a subset of JavaScript object notation syntax:</p>
+                <ul>
+                    <li>Data is in name/value pairs.</li>
+                    <li>Data is separated by commas.</li>
+                    <li>Curly braces <code>{}</code> hold objects.</li>
+                    <li>Square brackets <code>[]</code> hold arrays.</li>
+                </ul>
+
+                <h3>Example</h3>
+                <pre
+                    style="background: var(--bg-input); padding: 20px; border-radius: 8px; overflow-x: auto; border: 1px solid var(--border-color);">
+<code style="background: none; border: none; padding: 0;">{
+  "users": [
+    {
+      "firstName": "John",
+      "lastName": "Doe",
+      "age": 30
+    },
+    {
+      "firstName": "Jane",
+      "lastName": "Smith",
+      "age": 25
+    }
+  ]
+}</code></pre>
+
+                <div style="margin-top: 40px; text-align: center;">
+                    <a href="index.html" class="btn btn-primary"
+                        style="display: inline-block; text-decoration: none;">Try JSON Formatter Now</a>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <p>&copy; 2026 JSONEase. Free Online JSON Tools.</p>
+                <div class="footer-links">
+                    <a href="what-is-json.html">What is JSON?</a>
+                    <a href="json-vs-xml.html">JSON vs XML</a>
+                    <a href="how-to-fix-json-errors.html">Fix JSON Errors</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
