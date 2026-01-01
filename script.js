@@ -273,12 +273,44 @@ const handleError = (error) => {
         const { line, column } = getLineColumn(text, charIndex);
         showError(`Error at Line ${line}, Column ${column}: ${errorString.replace(/at position \d+/i, '').trim()}`);
 
-        // Jump to error location in CodeMirror
         if (inputEditor) {
+            // Apply highlighting
+            inputEditor.getAllMarks().forEach(mark => mark.clear());
+            inputEditor.markText(
+                { line: line - 1, ch: 0 },
+                { line: line - 1, ch: 1000 },
+                { className: "cm-error-line" }
+            );
             inputEditor.setCursor({ line: line - 1, ch: column - 1 });
             inputEditor.focus();
         }
         return;
+    }
+
+    // Attempt to extract position using strict JSON parse if not available in error message
+    // This catches issues where JSON5 might fail silently or differently
+    try {
+        JSON.parse(text);
+    } catch (strictErr) {
+        const strictMsg = strictErr.message;
+        const strictMatch = strictMsg.match(/at position (\d+)/i);
+        if (strictMatch && !posMatch) { // Only if we haven't already handled it
+            const charIndex = parseInt(strictMatch[1], 10);
+            const { line, column } = getLineColumn(text, charIndex);
+
+            if (inputEditor) {
+                // Clear previous marks
+                inputEditor.getAllMarks().forEach(mark => mark.clear());
+                // Mark the line background
+                inputEditor.markText(
+                    { line: line - 1, ch: 0 },
+                    { line: line - 1, ch: 1000 },
+                    { className: "cm-error-line" }
+                );
+                inputEditor.setCursor({ line: line - 1, ch: column - 1 });
+                inputEditor.focus();
+            }
+        }
     }
 
     // Improve Error Messages
@@ -324,6 +356,16 @@ const fixJSON = () => {
             // Replace single quotes with double quotes (simple cases)
             fixedText = fixedText.replace(/'([^']*)':/g, '"$1":');
             fixedText = fixedText.replace(/: '([^']*)'/g, ': "$1"');
+            // Regex 3: Inject missing commas (Enhanced)
+            // 1. Between value (string, number, boolean, null) and key (starting with quote)
+            // Look for: "string" "key" OR number "key" OR true/false/null "key"
+            fixedText = fixedText.replace(/((?:true|false|null|[0-9]+|"[^"]*")\s*)(?=")/g, '$1,');
+
+            // 2. Between closing bracket/brace and opening bracket/brace/quote
+            fixedText = fixedText.replace(/([}\]])([\s\n\r]*)(?=[{\["'])/g, '$1,$2');
+
+            // Clean up accidental double commas
+            fixedText = fixedText.replace(/,(\s*,)/g, ',');
 
             // Try standard parse with regex-fixed text
             parsed = JSON.parse(fixedText);
